@@ -32,7 +32,7 @@ var yAxis = d3.svg.axis()
 	.scale(yScale)
 	.orient("left");
 
-d3.csv("https://raw.githubusercontent.com/schulzetenberg/d3-examples/gh-pages/usd_euro.csv", function(data) {
+d3.csv("./usd_euro.csv", function(data) {
 
 	// extract the x labels for the axis and scale domain
 	var xLabels = data.map(function (d) { return d['yearmonth']; })

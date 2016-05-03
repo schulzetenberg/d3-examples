@@ -1,0 +1,22 @@
+<html>
+  <body>
+    <div id="chartContainer">
+      <script src="least-squares.js"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.16/d3.js"></script>
+      <script src="http://dimplejs.org/dist/dimple.v2.2.0.min.js"></script>
+      <script type="text/javascript">
+        var svg = dimple.newSvg("#chartContainer", 590, 400);
+          d3.tsv("./example_data.tsv", function (data) {
+            data = dimple.filterData(data, "Date", "01/12/2012");
+            var myChart = new dimple.chart(svg, data);
+            myChart.setBounds(60, 30, 500, 330)
+            myChart.addMeasureAxis("x", "Unit Sales");
+            myChart.addMeasureAxis("y", "Operating Profit");
+            myChart.addSeries(["SKU", "Channel"], dimple.plot.bubble);
+            myChart.addLegend(200, 10, 360, 20, "right");
+            myChart.draw();
+          });
+      </script>
+    </div>
+  </body>
+</html>
