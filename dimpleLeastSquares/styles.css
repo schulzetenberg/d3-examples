@@ -1,0 +1,8 @@
+[id^="dimple-trend"] {
+	stroke-dasharray:3;
+}
+
+[class*="dimple-trend"] rect {
+	fill: #FFFFFF !important;
+	stroke-dasharray: 3px;
+}

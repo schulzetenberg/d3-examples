@@ -1,4 +1,4 @@
-function parse(values_x, values_y) {
+function leastSquares(values_x, values_y) {
     var sum_x = 0;
     var sum_y = 0;
     var sum_xy = 0;
