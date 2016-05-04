@@ -1,19 +1,28 @@
 var svg = dimple.newSvg("#chartContainer", 590, 400);
 d3.tsv("http://dimplejs.org/data/example_data.tsv", function (data) {
-  var x = [];
-  var y = [];
+  var xSuperMarket = [];
+  var ySuperMarket = [];
+  var xHyperMarket = [];
+  var yHyperMarket = [];
 
   for(var i=0; i < data.length; i++){
       if(data[i]["Channel"] === "Supermarkets"){
         var epochDate = moment(data[i]["Month"], "MMM-YY").valueOf();
-        x.push(epochDate);
+        xSuperMarket.push(epochDate);
 
         unitsInt = parseInt(data[i]["Unit Sales"]);
-        y.push(unitsInt);
+        ySuperMarket.push(unitsInt);
+    } else if(data[i]["Channel"] === "Hypermarkets"){
+      var epochDate = moment(data[i]["Month"], "MMM-YY").valueOf();
+      xHyperMarket.push(epochDate);
+
+      unitsInt = parseInt(data[i]["Unit Sales"]);
+      yHyperMarket.push(unitsInt);
     }
   }
 
-  var result = leastSquares(x, y);
+  var result = leastSquares(xSuperMarket, ySuperMarket);
+  var result2 = leastSquares(xHyperMarket, yHyperMarket);
 
   for(var i=0; i < result[0].length; i++) {
     data.push({
@@ -21,6 +30,13 @@ d3.tsv("http://dimplejs.org/data/example_data.tsv", function (data) {
       "Unit Sales": result[1][i],
       "Channel": "Trend Line Supermarkets"
     });
+
+    data.push({
+      "Month":  moment(result2[0][i]).format("MMM-YY"),
+      "Unit Sales": result2[1][i],
+      "Channel": "Trend Line Hypermarkets"
+    });
+
   }
 
   var myChart = new dimple.chart(svg, data);
