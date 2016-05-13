@@ -1,3 +1,7 @@
+/* Resources:
+*    http://www.coffeegnome.net/converting-svg-to-png-with-canvg/
+*/
+
 function render(svg, width, height) {
     var c = document.createElement('canvas');
     c.width = width || 500;
