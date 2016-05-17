@@ -1,29 +1,53 @@
 // Original linear least squares function from https://dracoblue.net/dev/linear-least-squares-in-javascript/
 
-function leastSquares(values_x, values_y) {
-    var sum_x = 0;
-    var sum_y = 0;
-    var sum_xy = 0;
-    var sum_xx = 0;
-    var count = 0;
-    var x = 0;
-    var y = 0;
+/*
+params = {
+  xFormat: "MMM-YY", (optional)
+  xField: "Month",
+  filterField: "Channel",
+  filter: "Supermarkets",
+  yField: "Unit Sales",
+  data: data
+}
+*/
+function leastSquares(params) {
+    if(!params.xField || !params.filterField || !params.filter || !params.yField || !params.data || !params.data.length){
+        console.log("Missing required parameters", params);
+        return;
+    }
+
+    var values_x = [];
+    var values_y = [];
+
+    for(var i=0; i < params.data.length; i++){
+        if(params.data[i][params.filterField] === params.filter){
+          if(params.xFormat){
+            var x = moment(params.data[i][params.xField], params.xFormat).valueOf();
+          } else {
+            var x = params.data[i][params.xField];
+          }
+          values_x.push(x);
+
+          var y = params.data[i][params.yField];
+          if (typeof y !== 'number') y = parseFloat(y);
+          if (isNaN(y) || !isFinite(y)) {
+              console.log("Error parsing y float value at data[" + i + "]. y:", y);
+              return;
+          }
+          values_y.push(y);
+      }
+    }
+
     var values_length = values_x.length;
-
     if (values_length != values_y.length) {
-        console.log('The parameters values_x and values_y need to have same size!');
-        return [[], []];
+        console.log('The parameters values_x and values_y need to have same size');
+        return;
     }
 
-    // Do nothing
-    if (values_length === 0) {
-        return [[], []];
-    }
-
-    // Calculate the sum for each of the parts necessary
-    for (var v = 0; v < values_length; v++) {
-        x = values_x[v];
-        y = values_y[v];
+    var sum_x = sum_y = sum_xy = sum_xx = count = x = y = 0;
+    for (var i=0; i < values_length; i++) {
+        x = values_x[i];
+        y = values_y[i];
         sum_x += x;
         sum_y += y;
         sum_xx += x*x;
@@ -33,21 +57,21 @@ function leastSquares(values_x, values_y) {
 
     /*
      * Calculate m and b for the formula:
-     * y = x * m + b
+     * y = m * x + b
      */
     var m = (count*sum_xy - sum_x*sum_y) / (count*sum_xx - sum_x*sum_x);
     var b = (sum_y/count) - (m*sum_x)/count;
 
-    // Make the x and y result line now
-    var result_values_x = [];
-    var result_values_y = [];
-
-    for (var v = 0; v < values_length; v++) {
-        x = values_x[v];
-        y = x * m + b;
-        result_values_x.push(x);
-        result_values_y.push(y);
+    for (var i=0; i < values_length; i++) {
+        x = values_x[i];
+        y = m * x + b;
+        if(params.xFormat) x = moment(x).format(params.xFormat);
+        
+        params.data.push({
+            [params.xField]: x,
+            [params.yField]: y,
+            [params.filterField]: "Trend Line " + params.filter
+        });
     }
 
-    return [result_values_x, result_values_y];
 }
