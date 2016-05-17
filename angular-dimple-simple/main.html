@@ -8,11 +8,11 @@
   </header>
   <body ng-controller="chartCtrl">
 
-      <graph data="graphData">
-        <x-axis field="Month"></x-axis>
-        <y-axis field="Sales"></y-axis>
-        <area field="storeId" value="2"></area>
-        <area field="storeId" value="1"></area>
+      <graph data="graphData" height="400px" autoresize="true">
+        <x field="Month"></x>
+        <y field="Sales"></y>
+		<graph-legend></graph-legend>
+        <line field="storeId"></line>
       </graph>
 
     <!-- Custom JS -->

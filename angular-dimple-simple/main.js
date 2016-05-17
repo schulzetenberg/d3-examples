@@ -1,4 +1,4 @@
-var myApp = angular.module('myApp',[]);
+var myApp = angular.module('myApp',['angular-dimple']);
 
 myApp.controller('chartCtrl', function($scope) {
   $scope.graphData = [
