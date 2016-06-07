@@ -7,9 +7,27 @@
       <script src="http://dimplejs.org/dist/dimple.v2.2.0.min.js"></script>
   </header>
   <body>
+    Moving Average N:
+    <select id="ma" onchange="nSelected()">
+      <option value=''>
+      <option value=1> 1
+      <option value=2> 2
+      <option value=3> 3
+      <option value=4> 4
+      <option value=5> 5
+    </select>
+
     <div id="chartContainer" style="height: 500px;"></div>
 
+
+    <script>
+      function nSelected() {
+        var n = document.getElementById("ma").value;
+        if(n) main(n);
+      }
+    </script>
+    
     <!-- Custom JS -->
-    <script src="legend.js"></script>
+    <script src="ma.js"></script>
   </body>
 </html>
