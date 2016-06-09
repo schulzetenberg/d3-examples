@@ -11,7 +11,7 @@ params = {
 }
 */
 function leastSquares(params) {
-    if(!params.xField || !params.filterField || !params.filter || !params.yField || !params.data || !params.data.length){
+    if(!params.xField || !params.filterField || !params.yField || !params.data || !params.data.length){
         console.log("Missing required parameters", params);
         return;
     }
@@ -20,7 +20,7 @@ function leastSquares(params) {
     var values_y = [];
 
     for(var i=0; i < params.data.length; i++){
-        if(params.data[i][params.filterField] === params.filter){
+        if(!params.filter || params.data[i][params.filterField] === params.filter){
           if(params.xFormat){
             var x = moment(params.data[i][params.xField], params.xFormat).valueOf();
           } else {
@@ -63,15 +63,21 @@ function leastSquares(params) {
     var b = (sum_y/count) - (m*sum_x)/count;
 
     for (var i=0; i < values_length; i++) {
-        x = values_x[i];
-        y = m * x + b;
-        if(params.xFormat) x = moment(x).format(params.xFormat);
-        
-        params.data.push({
-            [params.xField]: x,
-            [params.yField]: y,
-            [params.filterField]: "Trend Line " + params.filter
-        });
+        addTrendPoint(values_x[i]);
+    }
+
+    if(params.trendTime)  addTrendPoint(params.trendTime); // Future epoch time
+
+    function addTrendPoint(x){
+      y = m * x + b;
+      if(params.xFormat) x = moment(x).format(params.xFormat);
+      if(!params.filter) params.filter  = '';
+
+      params.data.push({
+          [params.xField]: x,
+          [params.yField]: y,
+          [params.filterField]: "Trend Line " + params.filter
+      });
     }
 
 }
