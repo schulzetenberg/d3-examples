@@ -3,6 +3,7 @@
 /*
 params = {
   xFormat: "MMM-YY", (optional)
+  trendTime: 1309500000000, (optional, adds a extra data point to the trend line)
   xField: "Month",
   filterField: "Channel",
   filter: "Supermarkets",
