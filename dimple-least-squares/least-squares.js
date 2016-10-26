@@ -62,6 +62,7 @@ function leastSquares(params) {
      */
     var m = (count*sum_xy - sum_x*sum_y) / (count*sum_xx - sum_x*sum_x);
     var b = (sum_y/count) - (m*sum_x)/count;
+    var first = true;
 
     for (var i=0; i < values_length; i++) {
         addTrendPoint(values_x[i]);
@@ -71,6 +72,16 @@ function leastSquares(params) {
 
     function addTrendPoint(x){
       y = m * x + b;
+
+      // Prevent negative trend values by setting datapoint at y=0 & subsequent values to 0
+      if((y < 0) && (m < 0)) {
+          y = 0;
+          if(first) {
+              first = false;
+              addTrendPoint(-b/m);
+          }
+      }
+
       if(params.xFormat) x = moment(x).format(params.xFormat);
       if(!params.filter) params.filter  = '';
 

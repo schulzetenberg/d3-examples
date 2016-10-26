@@ -5,7 +5,7 @@ d3.tsv("http://dimplejs.org/data/example_data.tsv", function (data) {
 
   var params = {
     xFormat: "DD/MM/YYYY",
-    trendTime: 1374345200000,
+    trendTime: 1407506527000,
     xField: "Date",
     filterField: "Channel",
     filter: "Supermarkets",
@@ -19,7 +19,7 @@ d3.tsv("http://dimplejs.org/data/example_data.tsv", function (data) {
   leastSquares(params);
 
   var myChart = new dimple.chart(svg, filteredData);
-  myChart.setBounds(60, 30, 505, 305)
+  myChart.setBounds(60, 30, 505, 305);
   var x = myChart.addTimeAxis("x", "Date","%d/%m/%Y", "%m-%d-%y");
   myChart.addMeasureAxis("y", "Unit Sales");
   myChart.addSeries("Channel", dimple.plot.line);
